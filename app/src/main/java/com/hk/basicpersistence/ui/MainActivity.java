@@ -1,8 +1,10 @@
-package com.hk.basicpersistence;
+package com.hk.basicpersistence.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.hk.basicpersistence.R;
 
 public class MainActivity extends AppCompatActivity {
 
