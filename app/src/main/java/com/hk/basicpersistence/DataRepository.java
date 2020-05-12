@@ -1,40 +1,39 @@
-package com.hk.basicpersistence;
+package com.example.android.persistence;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-
 import com.hk.basicpersistence.db.AppDatabase;
 import com.hk.basicpersistence.db.entity.CommentEntity;
 import com.hk.basicpersistence.db.entity.ProductEntity;
 
 import java.util.List;
 
+/**
+ * Repository handling the work with products and comments.
+ */
 public class DataRepository {
 
     private static DataRepository sInstance;
 
     private final AppDatabase mDatabase;
-
     private MediatorLiveData<List<ProductEntity>> mObservableProducts;
 
-    public DataRepository(AppDatabase mDatabase) {
-        this.mDatabase = mDatabase;
+    private DataRepository(final AppDatabase database) {
+        mDatabase = database;
         mObservableProducts = new MediatorLiveData<>();
-
 
         mObservableProducts.addSource(mDatabase.productDao().loadAllProducts(),
                 productEntities -> {
-                    if(mDatabase.getDatabaseCreated().getValue() != null){
+                    if (mDatabase.getDatabaseCreated().getValue() != null) {
                         mObservableProducts.postValue(productEntities);
                     }
-                }
-        );
+                });
     }
 
-    public static DataRepository getInstance(final AppDatabase database){
-        if(sInstance == null){
-            synchronized (DataRepository.class){
-                if(sInstance == null){
+    public static DataRepository getInstance(final AppDatabase database) {
+        if (sInstance == null) {
+            synchronized (DataRepository.class) {
+                if (sInstance == null) {
                     sInstance = new DataRepository(database);
                 }
             }

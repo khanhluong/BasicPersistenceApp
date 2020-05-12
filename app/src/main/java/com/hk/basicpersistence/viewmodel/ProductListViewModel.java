@@ -11,12 +11,11 @@ import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.Transformations;
 
 import com.hk.basicpersistence.BasicPersistenceApp;
-import com.hk.basicpersistence.DataRepository;
 import com.hk.basicpersistence.db.entity.ProductEntity;
+import com.example.android.persistence.DataRepository;
 
 import java.util.List;
 
-import static androidx.lifecycle.Transformations.switchMap;
 
 public class ProductListViewModel extends AndroidViewModel {
 
@@ -44,7 +43,7 @@ public class ProductListViewModel extends AndroidViewModel {
                 });
     }
 
-    void setQuery(CharSequence query){
+    public void setQuery(CharSequence query){
         mSavedStateHandler.set(QUERY_KEY, query);
     }
 

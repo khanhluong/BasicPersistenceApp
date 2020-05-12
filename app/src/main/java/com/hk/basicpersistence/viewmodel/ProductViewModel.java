@@ -8,9 +8,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.hk.basicpersistence.DataRepository;
+import com.hk.basicpersistence.BasicPersistenceApp;
 import com.hk.basicpersistence.db.entity.CommentEntity;
 import com.hk.basicpersistence.db.entity.ProductEntity;
+import com.example.android.persistence.DataRepository;
 
 import java.util.List;
 
@@ -22,11 +23,11 @@ public class ProductViewModel extends AndroidViewModel {
 
     private final LiveData<List<CommentEntity>> mObservableComments;
 
-
     public ProductViewModel(@NonNull Application application, DataRepository repository,
                             final int productId) {
         super(application);
         mProductId = productId;
+
         mObservableComments = repository.loadComments(mProductId);
         mObservableProduct = repository.loadProduct(mProductId);
     }
@@ -48,8 +49,8 @@ public class ProductViewModel extends AndroidViewModel {
      * This creator is to showcase how to inject dependencies into ViewModels. It's not
      * actually necessary in this case, as the product ID can be passed in a public method.
      */
-
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
+
         @NonNull
         private final Application mApplication;
 
@@ -57,15 +58,15 @@ public class ProductViewModel extends AndroidViewModel {
 
         private final DataRepository mRepository;
 
-        public Factory(@NonNull Application mApplication, int mProductId, DataRepository mRepository) {
-            this.mApplication = mApplication;
-            this.mProductId = mProductId;
-            this.mRepository = mRepository;
+        public Factory(@NonNull Application application, int productId) {
+            mApplication = application;
+            mProductId = productId;
+            mRepository = ((BasicPersistenceApp) application).getRepository();
         }
 
-        @NonNull
         @SuppressWarnings("unchecked")
         @Override
+        @NonNull
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             return (T) new ProductViewModel(mApplication, mRepository, mProductId);
         }

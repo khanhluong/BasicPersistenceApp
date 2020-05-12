@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.hk.basicpersistence.db.AppDatabase;
 
+import com.example.android.persistence.DataRepository;
+
 public class BasicPersistenceApp extends Application {
 
     private AppExecutors mAppExecutors;
